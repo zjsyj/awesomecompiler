@@ -207,6 +207,11 @@ public class RawLexer {
 			token.setType(TokenType.Slash);
 			tokenText.append(ch);
 		}
+		else if (ch == ';') {
+			newState = DfaState.SemiColon;
+			token.setType(TokenType.SemiColon);
+			tokenText.append(ch);
+		}
 		else if (ch == '(') {
 			newState = DfaState.LeftParen;
 			token.setType(TokenType.LeftParen);

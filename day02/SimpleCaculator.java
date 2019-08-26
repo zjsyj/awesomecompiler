@@ -136,7 +136,7 @@ public class SimpleCaculator {
 			}
 			else if (token.getType() == TokenType.Identifier) {
 				token = tokens.read();
-				node = new SimpleASTNode(ASTNodeType.Indentifier, token.getText());
+				node = new SimpleASTNode(ASTNodeType.Identifier, token.getText());
 			}
 			else if (token.getType() == TokenType.LeftParen) {
 				tokens.read();
