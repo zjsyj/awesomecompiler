@@ -22,6 +22,9 @@ Left recursive, priority, associativity are some problems you must pay attention
 
 #### semantic analysis
 
+#### Syntactic implementation with Antlr
+Antlr give expression order an extran meaning: priority to the algorithm.
+
 
 ### back-end
 **Back End** is the process of target code generation aim at specific machine.
