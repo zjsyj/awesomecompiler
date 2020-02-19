@@ -35,5 +35,4 @@ public class NameSpace extends BlockScope {
 		subNameSpace.remove(child);
 	}
 	
-	
 }

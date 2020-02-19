@@ -15,7 +15,7 @@ public class TypeChecker extends PlayScriptBaseListener{
 		if (ctx.variableInitializer() != null) {
 			Variable variable = (Variable)at.symbolOfNode.get(ctx.variableDeclaratorId());
 			Type type1 = variable.type;
-			Type type2 = at.typeOfNode.get(ctx.variableDeclaratorId());
+			Type type2 = at.typeOfNode.get(ctx.variableInitializer());
 			checkAssign(type1, type2, ctx, ctx.variableDeclaratorId(), ctx.variableInitializer());
 		}
 	}
@@ -53,6 +53,10 @@ public class TypeChecker extends PlayScriptBaseListener{
 				checkBooleanOperand(type2, ctx, ctx.expression(1));
 				break;
 			
+                        case PlayScriptParser.ASSIGN:
+                               checkAssign(type1,type2,ctx,ctx.expression(0),ctx.expression(1));
+                               break;
+
 			case PlayScriptParser.ADD_ASSIGN:
 			case PlayScriptParser.SUB_ASSIGN:
 			case PlayScriptParser.MUL_ASSIGN:
@@ -70,12 +74,10 @@ public class TypeChecker extends PlayScriptBaseListener{
 					}
 				}
 				else {
-					at.log("operand " + ctx.expression(1).getText() + " should be numeric.", ctx);
+					at.log("operand + " + ctx.expression(1).getText() + " should be numeric.", ctx);
 				}
 				break;
 			}
-			
-			
 		}
 	}
 
@@ -94,7 +96,7 @@ public class TypeChecker extends PlayScriptBaseListener{
 	private void checkAssign(Type type1, Type type2, ParserRuleContext ctx, ParserRuleContext operand1, ParserRuleContext operand2) {
 		if (PrimitiveType.isNumeric(type2)) {
 			if (!checkNumericAssign(type1, type2)) {
-				
+                at.log("can not assign " + operand2.getText() + " of type " + type2 + " to " + operand1.getText() + " of type " + type1, ctx);
 			}
 		}
 		else if (type2 instanceof Class) {

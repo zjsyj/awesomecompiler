@@ -1,8 +1,7 @@
 package play;
 
-import play.PlayScriptParser.*;
-
 import org.antlr.v4.runtime.ParserRuleContext;
+import play.PlayScriptParser.*;
 
 import java.util.Stack;
 

@@ -44,7 +44,7 @@ public class TypeResolver extends PlayScriptBaseListener {
 		}
 		
 		Scope scope = at.enclosingScopeOfNode(ctx);
-		Function found = scope.getFunction(scope, function.name, function.getParamTypes());
+		Function found = Scope.getFunction(scope, function.name, function.getParamTypes());
 		if (found != null && found != function) {
 			at.log("Function or method already declared: " + ctx.getText(), ctx);
 		}
@@ -66,7 +66,7 @@ public class TypeResolver extends PlayScriptBaseListener {
 	public void enterClassDeclaration(ClassDeclarationContext ctx) {
 		Class theClass = (Class)at.node2Scope.get(ctx);
 		
-		if (ctx.IDENTIFIER() != null) {
+		if (ctx.EXTENDS() != null) {
 			String parentClassName = ctx.typeType().getText();
 			Type type = at.lookupType(parentClassName);
 			if (type != null && type instanceof Class) {

@@ -24,21 +24,7 @@ public abstract class Scope extends Symbol {
 		
 		return null;
 	}
-	
-	protected Class getClass(String name) {
-		return getClass(this, name);
-	}
-	
-	protected static Class getClass(Scope scope, String name) {
-		for (Symbol s : scope.symbols) {
-			if (s instanceof Class && s.name.contentEquals(name)) {
-				return (Class)s;
-			}
-		}
-		
-		return null;
-	}
-	
+
 	protected Function getFunction(String name, List<Type> paramTypes) {
 		return getFunction(this, name, paramTypes);
 	}
@@ -69,7 +55,7 @@ public abstract class Scope extends Symbol {
 		for (Symbol s : scope.symbols) {
 			if (s instanceof Variable && ((Variable)s).type instanceof FunctionType && s.name.equals(name)) {
 				Variable v = (Variable)s;
-				FunctionType functionType = (FunctionType)v;
+				FunctionType functionType = (FunctionType)v.type;
 				if (functionType.matchParameterTypes(paramTypes)) {
 					rtn = v;
 					break;
@@ -78,6 +64,20 @@ public abstract class Scope extends Symbol {
 		}
 
 		return rtn;
+	}
+
+	protected Class getClass(String name) {
+		return getClass(this, name);
+	}
+	
+	protected static Class getClass(Scope scope, String name) {
+		for (Symbol s : scope.symbols) {
+			if (s instanceof Class && s.name.equals(name)) {
+				return (Class)s;
+			}
+		}
+		
+		return null;
 	}
 	
 	protected boolean containsSymbol(Symbol s) {

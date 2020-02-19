@@ -15,7 +15,7 @@ public class Variable extends Symbol {
 		this.ctx = ctx;
 	}
 	
-	public boolean isClassMethod() {
+	public boolean isClassMember() {
 		return enclosingScope instanceof Class;
 	}
 	

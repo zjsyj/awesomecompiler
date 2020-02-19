@@ -21,6 +21,5 @@ public class PlayObject {
 	public void setValue(Variable variable, Object value) {
 		fields.put(variable, value);
 	}
-	
-	
+
 }

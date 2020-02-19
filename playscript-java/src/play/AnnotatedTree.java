@@ -29,6 +29,10 @@ public class AnnotatedTree {
 	NameSpace nameSpace = null;
 	
 	protected List<CompilationLog> logs = new LinkedList<>();
+
+        protected Map<Function, Function> thisConstructorRef = new HashMap<>();
+
+        protected Map<Function, Function> superConstructorRef = new HashMap<>();
 	
 	protected AnnotatedTree() {
 		
@@ -105,7 +109,7 @@ public class AnnotatedTree {
 	}
 	
 	protected Variable lookupFunctionVariable(Scope scope, String idName, List<Type> paramTypes) {
-		Variable rtn = Scope.getFunctionVariable(scope, idName, paramTypes);
+		Variable rtn = scope.getFunctionVariable(idName, paramTypes);
 		
 		if (rtn == null && scope.enclosingScope != null) {
 			rtn = lookupFunctionVariable(scope.enclosingScope, idName, paramTypes);
@@ -179,6 +183,18 @@ public class AnnotatedTree {
 		}
 	}
 	
+	public Class enclosingClassOfNode(RuleContext ctx) {
+		if (ctx.parent instanceof PlayScriptParser.ClassDeclarationContext) {
+			return (Class)node2Scope.get(ctx.parent);
+		}
+		else if (ctx.parent == null) {
+			return null;
+		}
+		else {
+			return enclosingClassOfNode(ctx.parent);
+		}
+	}
+	
 	public String getScopeTreeString() {
 		StringBuffer sb = new StringBuffer();
 		scopeToString(sb, nameSpace, "");
@@ -188,7 +204,6 @@ public class AnnotatedTree {
 	
 	private void scopeToString(StringBuffer sb, Scope scope, String indent) {
 		sb.append(indent).append(scope).append('\n');
-		
 		for (Symbol s : scope.symbols) {
 			if (s instanceof Scope) {
 				scopeToString(sb, (Scope)s, indent+"\t");

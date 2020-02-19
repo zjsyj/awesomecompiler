@@ -74,7 +74,7 @@ public class Function extends Scope implements FunctionType {
 		return enclosingScope instanceof Class;
 	}
 	
-	public boolean isContructor() {
+	public boolean isConstructor() {
 		if (enclosingScope instanceof Class) {
 			return enclosingScope.name.equals(name);
 		}

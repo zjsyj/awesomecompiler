@@ -6,6 +6,12 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 public class Class extends Scope implements Type {
 	private Class parentClass = null;
+
+        private This thisRef = null;
+
+        private Super superRef = null;
+
+        private DefaultConstructor defaultConstructor = null;
 	
 	protected Class(String name, ParserRuleContext ctx) {
 		this.name = name;
@@ -16,7 +22,7 @@ public class Class extends Scope implements Type {
 	}
 	
 	protected Class getParentClass() {
-		return this.parentClass;
+		return parentClass;
 	}
 	
 	protected void setParentClass(Class theClass) {
@@ -25,9 +31,7 @@ public class Class extends Scope implements Type {
 		superRef = new Super(parentClass, ctx);
 		superRef.type = parentClass;
 	}
-	
-	private This thisRef = null;
-	private Super superRef = null;
+
 	private static Class rootClass = new Class("Object", null);
 	
 	public This getThis() {
@@ -64,7 +68,7 @@ public class Class extends Scope implements Type {
 		return rtn;
 	}
 	
-	protected Function findContrutor(List<Type> paramTypes) {
+	protected Function findConstructor(List<Type> paramTypes) {
 		Function rtn = super.getFunction(name, paramTypes);
 		
 		return rtn;
@@ -89,6 +93,21 @@ public class Class extends Scope implements Type {
 		
 		return rtn;
 	}
+
+    @Override
+    protected boolean containsSymbol(Symbol symbol){
+        //this关键�
+        if(symbol == thisRef || symbol == superRef){
+            return true;
+        }
+
+        boolean rtn = false;
+        rtn = symbols.contains(symbol);
+        if (!rtn && parentClass != null){
+            rtn = parentClass.containsSymbol(symbol);
+        }
+        return rtn;
+    }
 	
 	@Override
 	public boolean isType(Type type) {
@@ -111,4 +130,12 @@ public class Class extends Scope implements Type {
 		
 		return false;
 	}
+
+        protected DefaultConstructor defaultConstructor(){
+           if (defaultConstructor == null){
+              defaultConstructor = new DefaultConstructor(this.name,this);
+          }
+          return defaultConstructor;
+      }
+
 }

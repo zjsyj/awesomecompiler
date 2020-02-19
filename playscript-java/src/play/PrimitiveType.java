@@ -31,7 +31,7 @@ public final class PrimitiveType implements Type {
 	public static PrimitiveType Char = new PrimitiveType("Char");
 	public static PrimitiveType Short = new PrimitiveType("Short");
 	public static PrimitiveType String = new PrimitiveType("String");
-	public static PrimitiveType Null = new PrimitiveType("Null");
+	public static PrimitiveType Null = new PrimitiveType("null");
 	
 	public static PrimitiveType getUpperType(Type type1, Type type2) {
 		PrimitiveType type = null;
@@ -70,7 +70,7 @@ public final class PrimitiveType implements Type {
 			type == PrimitiveType.Double) {
 			return true;
 		}
-		
+
 		return false;
 	}
 	

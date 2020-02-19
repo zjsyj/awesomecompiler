@@ -39,7 +39,5 @@ public class StackFrame {
 		
 		return rtn;
 	}
-	
-	
 
 }

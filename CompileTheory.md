@@ -29,4 +29,8 @@ Antlr give expression order an extran meaning: priority to the algorithm.
 ### back-end
 **Back End** is the process of target code generation aim at specific machine.
 
+* run-time mechanism
+* target code(bytecode, machine code, ...)
+* optimization
+
 ### trend
